@@ -1,7 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 @SuppressWarnings("serial")
 public class User implements Serializable {
@@ -17,6 +17,16 @@ public class User implements Serializable {
 
     // Tạo constructor, getters và setters ở đây
     // Chuột phải -> Source -> Generate Getters and Setters...
+    public User(String email, String userName, String fullName, String password, String avatar, int roleid, String phone, java.sql.Date createdDate) {
+        this.email = email;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.password = password;
+        this.avatar = avatar;
+        this.roleid = roleid;
+        this.phone = phone;
+        this.createdDate = createdDate;
+    }
     
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
