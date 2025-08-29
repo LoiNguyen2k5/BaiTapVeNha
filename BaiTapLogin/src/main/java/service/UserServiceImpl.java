@@ -3,6 +3,7 @@ package service;
 import dao.UserDao;
 import dao.UserDaoImpl;
 import model.User;
+import java.util.UUID;
 
 public class UserServiceImpl implements UserService {
     UserDao userDao = new UserDaoImpl();
@@ -53,5 +54,24 @@ public class UserServiceImpl implements UserService {
         User newUser = new User(email, username, fullname, password, null, 2, phone, date);
         userDao.insert(newUser);
         return true;
+    }
+    public String generateAndSaveResetToken(String email) {
+        User user = userDao.findByEmail(email);
+        if (user != null) {
+            String token = UUID.randomUUID().toString();
+            userDao.updateResetToken(email, token);
+            return token;
+        }
+        return null;
+    }
+
+    @Override
+    public User validateResetToken(String token) {
+        return userDao.findByResetToken(token);
+    }
+
+    @Override
+    public void updatePassword(String username, String newPassword) {
+        userDao.updatePassword(username, newPassword);
     }
 }

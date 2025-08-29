@@ -89,6 +89,12 @@ button {
 				href="${pageContext.request.contextPath}/register">Đăng ký tại
 				đây</a>
 		</p>
+		<p style="text-align: center; margin-top: 1rem;">
+			<a href="${pageContext.request.contextPath}/forgot-password">Quên mật khẩu?</a>
+		</p>
+		<c:if test="${param.success == 'reset'}">
+    <p style="color:green;">Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại.</p>
+</c:if>
 	</div>
 </body>
 </html>
