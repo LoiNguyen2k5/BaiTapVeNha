@@ -5,9 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Thêm Danh mục mới</title>
+<title>Chỉnh sửa Danh mục</title>
 <style>
-    /* CSS cho form hiện đại */
+    /* Sử dụng lại CSS tương tự trang add-category để có sự đồng bộ */
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f7fa;
@@ -52,21 +52,39 @@
         font-size: 1em;
     }
     
-    /* CSS riêng cho input[type=file] */
     .form-group input[type="file"] {
         border: 1px solid #ccc;
+        padding: 5px;
+    }
+    
+    /* CSS cho phần hiển thị ảnh hiện tại */
+    .current-image-container {
+        margin-bottom: 1rem;
+    }
+    
+    .current-image-container label {
+        font-weight: bold;
+        color: #555;
+    }
+    
+    .current-image {
+        margin-top: 10px;
+        max-width: 150px;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         padding: 5px;
     }
 
     /* Nhóm các nút bấm */
     .button-group {
         display: flex;
-        gap: 10px; /* Khoảng cách giữa các nút */
+        gap: 10px;
         margin-top: 20px;
     }
 
     .button-group button {
-        flex-grow: 1; /* Chia đều không gian */
+        flex-grow: 1;
         padding: 12px;
         border: none;
         border-radius: 4px;
@@ -76,21 +94,13 @@
     }
 
     .btn-submit {
-        background-color: #28a745;
+        background-color: #007bff; /* Màu xanh dương cho nút cập nhật */
         color: white;
     }
     .btn-submit:hover {
-        background-color: #218838;
+        background-color: #0069d9;
     }
 
-    .btn-reset {
-        background-color: #6c757d;
-        color: white;
-    }
-    .btn-reset:hover {
-        background-color: #5a6268;
-    }
-    
     .back-link {
         display: block;
         margin-top: 20px;
@@ -104,23 +114,38 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>Thêm Danh mục mới</h2>
+        <h2>Chỉnh sửa Danh mục</h2>
 
-        <form action="${pageContext.request.contextPath}/admin/category/add" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/admin/category/edit" method="post" enctype="multipart/form-data">
+            
+            <!-- Trường ẩn này rất quan trọng để gửi id của category đi -->
+            <input type="hidden" name="id" value="${category.cateId}" />
             
             <div class="form-group">
                 <label for="cateName">Tên danh mục:</label>
-                <input type="text" id="cateName" name="cateName" class="form-control" placeholder="Ví dụ: Quần Jean, Áo Sơ Mi..." required />
+                <input type="text" id="cateName" name="cateName" class="form-control" value="${category.cateName}" required />
+            </div>
+            
+            <div class="current-image-container">
+                <label>Ảnh hiện tại:</label><br/>
+                <c:if test="${not empty category.icon}">
+                    <c:url value="/image" var="imgUrl">
+                        <c:param name="fname" value="${category.icon}" />
+                    </c:url>
+                    <img src="${imgUrl}" class="current-image" />
+                </c:if>
+                <c:if test="${empty category.icon}">
+                    <span>(Chưa có ảnh)</span>
+                </c:if>
             </div>
             
             <div class="form-group">
-                <label for="icon">Ảnh đại diện:</label>
+                <label for="icon">Chọn ảnh mới (nếu muốn thay đổi):</label>
                 <input type="file" id="icon" name="icon" class="form-control" />
             </div>
 
             <div class="button-group">
-                <button type="submit" class="btn-submit">Thêm</button>
-                <button type="reset" class="btn-reset">Hủy</button>
+                <button type="submit" class="btn-submit">Cập nhật</button>
             </div>
             
         </form>
